@@ -1,8 +1,8 @@
 # PQMagic
 
-[PQMagic](https://pqcrypto.dev/) (Post-Quantum Magic) is the first **high-performance post-quantum cryptographic algorithm library** that supports both the [FIPS 203 204 205](https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved) standards in China, and it supports the higher performance PQC algorithms designed by us: **Aigis-Enc、Aigis-Sig** ([PKC 2020]((https://eprint.iacr.org/2019/510))) and **SPHINCS-Alpha** ([CRYPTO 2023](https://eprint.iacr.org/2022/059)). PQMagic has implemented cryptographic modifications to the **Hash Function Components** of all algorithms, better aligning with Chinese standards while seamlessly integrating with international standards.
+[PQMagic](https://pqcrypto.dev/) (Post-Quantum Magic) is the first **high-performance post-quantum cryptographic algorithm library** that supports both the [FIPS 203 204 205](https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved) standards in China, and it supports the higher performance PQC algorithms designed by us: **Aigis-Enc, Aigis-Sig** ([PKC 2020](https://eprint.iacr.org/2019/510)) and **SPHINCS-Alpha** ([CRYPTO 2023](https://eprint.iacr.org/2022/059)). PQMagic has implemented cryptographic modifications to the **Hash Function Components** of all algorithms, better aligning with Chinese standards while seamlessly integrating with international standards.
 
-This project is developed and maintained by Professor Yu Yu's team from the [Shanghai Jiao Tong University](https://crypto.sjtu.edu.cn/lab/) and the [Shanghai Qi Zhi Institute]((https://sqz.ac.cn/password-48)). It aims to provide secure and **high-performance** PQC algorithms, offers solutions for post-quantum cryptography migration in various scenarios.
+This project is developed and maintained by Professor Yu Yu's team from the [Shanghai Jiao Tong University](https://crypto.sjtu.edu.cn/lab/) and the [Shanghai Qi Zhi Institute](https://sqz.ac.cn/password-48). It aims to provide secure and **high-performance** PQC algorithms, offers solutions for post-quantum cryptography migration in various scenarios.
 
 ## Version Support
 
@@ -57,7 +57,7 @@ Please refer to our website (https://pqcrypto.dev/benchmarking/) to see more det
   make install
   ```
 
-  - The correctness test binaries (`test_xxxx`) and benchmark binaries (`bench_xxxx`) are containd in `build/bin` dirctory.
+  - The correctness test binaries (`test_xxxx`) and benchmark binaries (`bench_xxxx`) are contained in `build/bin` directory.
   - The shared/static library files are contained in `/usr/local/lib`
   - The header files are contained in `/usr/local/include`
 
@@ -67,7 +67,7 @@ Please refer to our website (https://pqcrypto.dev/benchmarking/) to see more det
   cmake -DCMAKE_INSTALL_PREFIX=/path/to/your/installdir ..
   ```
 
-  - The correctness test binaries (`test_xxxx`) and benchmark binaries (`bench_xxxx`) are still containd in `build/bin` dirctory.
+  - The correctness test binaries (`test_xxxx`) and benchmark binaries (`bench_xxxx`) are still contained in `build/bin` directory.
   - The shared/static library files and header files are placed in `/path/to/your/installdir/lib` and `/path/to/your/installdir/include` respectively.
 
 - Select hash function
@@ -99,7 +99,7 @@ Please refer to our website (https://pqcrypto.dev/benchmarking/) to see more det
   - Dilithium: One can set `DILITHIUM_MODE` as `2,3,5` (default set all) to change different Dilithium parameters.
   - Aigis-sig: One can set `AIGIS_SIG_MODE` as `1,2,3` (default set all) to change different Aigis-sig parameters.
   - SPHINCS-Alpha: One can set `SPHINCS_A_MODE` as `[128|192|256][f|s]` mode with SHA2/SHAKE and `128f/s` with SM3
-  - Set `ENABLE_ML_KEM`、`ENABLE_KYBER`、`ENABLE_AIGIS_ENC`、`ENABLE_ML_DSA`、`ENABLE_SLH_DSA`、`ENABLE_DILITHIUM`、`ENABLE_AIGIS_SIG` or `ENABLE_SPHINCS_A` as `OFF` to remove related algorithm out of the compiled binaries and libraries (default `ON`).
+- Set `ENABLE_ML_KEM`, `ENABLE_KYBER`, `ENABLE_AIGIS_ENC`, `ENABLE_ML_DSA`, `ENABLE_SLH_DSA`, `ENABLE_DILITHIUM`, `ENABLE_AIGIS_SIG` or `ENABLE_SPHINCS_A` as `OFF` to remove related algorithm out of the compiled binaries and libraries (default `ON`).
 
 ### Use Makefile
 
@@ -175,7 +175,7 @@ Please refer to our website (https://pqcrypto.dev/benchmarking/) to see more det
   - For **SPHINCS-Alpha**, set `test/test_spx_a.c` as main file and compile, you can get test binary.
     - Note that: files in test folder should be excluded.
     - If you want to run with other modes, then goto `Makefile` and change `SPHINCS_A_MODE`.
-  - For **ML-KEM, Kyber, Aigis-enc, ML-DSA, SLH-DSA, Dilithium,  Aigis-sig and SPHINCS-Alpha**, set `test/test_speed.c` as main file and compile, you can get corresponding speed test binary.
+  - For **ML-KEM, Kyber, Aigis-enc, ML-DSA, SLH-DSA, Dilithium, Aigis-sig and SPHINCS-Alpha**, set `test/test_speed.c` as main file and compile, you can get corresponding speed test binary.
     - If you want to run other security level algorithm, then also change the macro in `config.h/params.h/Makefile` as mentioned above.
 
 ## Contact Us
