@@ -1,6 +1,6 @@
 # PQMagic
 
-[PQMagic](https://pqcrypto.dev/)（Post-Quantum Magic）是国内首个支持 [FIPS 203 204 205 标准](https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved) 的**高性能安全后量子密码算法库**，并支持性能更高效的**国产自研** PQC 算法 **Aigis-Enc、Aigis-Sig**（[PKC 2020]((https://eprint.iacr.org/2019/510))）和 **SPHINCS-Alpha**（[CRYPTO 2023](https://eprint.iacr.org/2022/059)）。同时 PQMagic 对所有算法的底层哈希函数进行国密改造，更好地满足国内标准需求，同时也与国际标准无缝衔接，做到了完全自主可控。。 该项目由郁昱教授团队（[上海交通大学](https://crypto.sjtu.edu.cn/lab/) 、[上海期智研究院](https://sqz.ac.cn/password-48)）开发和维护，旨在提供自主、可控、安全、高性能的 PQC 算法，以及为后量子密码迁移工作提供解决方案。
+[PQMagic](https://pqcrypto.dev/)（Post-Quantum Magic）是国内首个支持 [FIPS 203 204 205 标准](https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved) 的**高性能安全后量子密码算法库**，并支持性能更高效的**国产自研** PQC 算法 **Aigis-Enc、Aigis-Sig**（[PKC 2020](https://eprint.iacr.org/2019/510)）和 **SPHINCS-Alpha**（[CRYPTO 2023](https://eprint.iacr.org/2022/059)）。同时 PQMagic 对所有算法的底层哈希函数进行国密改造，更好地满足国内标准需求，同时也与国际标准无缝衔接，做到了完全自主可控。该项目由郁昱教授团队（[上海交通大学](https://crypto.sjtu.edu.cn/lab/)、[上海期智研究院](https://sqz.ac.cn/password-48)）开发和维护，旨在提供自主、可控、安全、高性能的 PQC 算法，以及为后量子密码迁移工作提供解决方案。
 
 ## PQMagic 版本
 
@@ -17,7 +17,7 @@
 | 特性       | 跨平台/架构 高度兼容 | 针对x64（海光）、ARM（飞腾）等定制高性能优化版本 |
 | 源码       | 开源于本仓库及[Gitee](https://gitee.com/pqcrypto/pqmagic) | 请[联系我们](#联系我们)获取进阶版支持 |
 
-- 所有算法均支持国密 SM3 哈希模式，符合国密标准；同时也支持 SHAKE 哈希模式，于国际标准无缝衔接。
+- 所有算法均支持国密 SM3 哈希模式，符合国密标准；同时也支持 SHAKE 哈希模式，与国际标准无缝衔接。
 - Kyber 和 Dilithium 算法基于 [pq-crystals](https://github.com/pq-crystals) 和 [liboqs](https://github.com/open-quantum-safe/liboqs) 开发。
 - SLH-DSA 算法基于 [SPHINCS+](https://github.com/sphincs/sphincsplus) 开发。
 
@@ -57,7 +57,7 @@ PQMagic-std 和 PQMagic-adv 版本的其余详细测试数据请见官网 https:
 
   - 最终在 `build/bin` 目录下会生成相应算法的正确性测试程序 (`test_xxxx`) 和性能测试程序 (`bench_xxxx`)
   - 在 `/usr/local/lib` 目录下会生成相应的动态链接库和静态链接库
-  - 在 `/usr/local/include` 目录下会给出使用动态/静态链接库所必须的头文件
+  - 在 `/usr/local/include` 目录下会给出使用动态/静态链接库所必需的头文件
 
 - 指定 install 目录：
   
@@ -119,22 +119,22 @@ PQMagic-std 和 PQMagic-adv 版本的其余详细测试数据请见官网 https:
 
 - 将对应算法目录下的文件放入Visual Studio中。
 - **ML-KEM** 算法以 `test_ml_kem.c` 文件为入口文件进行编译，可以得到 ML-KEM 算法的测试程序。
-  - 编译默认生成 Kyber512，如果需要使用其他参数可以在 文件 `params.h` 中修改 `ML_KEM_MODE` 的值（可选为 512/768/1024）。
+  - 编译默认生成 Kyber512，如果需要使用其他参数可以在文件 `params.h` 中修改 `ML_KEM_MODE` 的值（可选为 512/768/1024）。
 - **Kyber** 算法以 `PQCgenKAT_kem.c` 文件为入口文件进行编译，可以得到 Kyber 算法的测试程序。
-  - 编译默认生成 Kyber512，如果需要使用其他参数可以在 文件 `params.h` 中修改 `KYBER_K` 的值（可选为 2/3/4）。
+  - 编译默认生成 Kyber512，如果需要使用其他参数可以在文件 `params.h` 中修改 `KYBER_K` 的值（可选为 2/3/4）。
 - **Aigis-enc** 算法以 `test/test_aigis_enc.c` 文件为入口文件进行编译，可以得到 Aigis-enc 算法的测试程序。
-  - 编译默认生成 Aigis-enc-2，如果需要使用其他参数可以在 文件 `config.h` 中修改 `AIGIS_ENC_MODE` 的值（可选为 1/2/3/4）。
+  - 编译默认生成 Aigis-enc-2，如果需要使用其他参数可以在文件 `config.h` 中修改 `AIGIS_ENC_MODE` 的值（可选为 1/2/3/4）。
 - **ML-DSA** 算法以 `test/test_ml_dsa.c` 文件为入口文件进行编译，可以得到 ML-DSA 算法的测试程序。
-  - 编译默认生成 Dilithium2，如果需要使用其他参数可以在 文件 `params.h` 中修改 `ML_DSA_MODE` 的值（可选为 44/65/87）。
+  - 编译默认生成 Dilithium2，如果需要使用其他参数可以在文件 `params.h` 中修改 `ML_DSA_MODE` 的值（可选为 44/65/87）。
 - **SLH-DSA** 算法以 `test/test_spx.c` 文件为入口文件进行编译，可以得到 SLH-DSA 算法的测试程序。
-  - 如果需要使用其他参数可以在 文件 `Makefile` 中修改 `SLH_DSA_MODE` 的值。
+  - 如果需要使用其他参数可以在文件 `Makefile` 中修改 `SLH_DSA_MODE` 的值。
 - **Dilithium** 算法以 `test/test_dilithium.c` 文件为入口文件进行编译，可以得到 Dilithium 算法的测试程序。
-  - 编译默认生成 Dilithium2，如果需要使用其他参数可以在 文件 `params.h` 中修改 `DILITHIUM_MODE` 的值（可选为 2/3/5）。
+  - 编译默认生成 Dilithium2，如果需要使用其他参数可以在文件 `params.h` 中修改 `DILITHIUM_MODE` 的值（可选为 2/3/5）。
 - **Aigis-sig** 算法以 `test/test_aigis.c` 文件为入口文件进行编译，可以得到 Aigis-sig 算法的测试程序。
-  - 编译默认生成 Aigis-sig2，如果需要使用其他参数可以在 文件 `params.h` 中修改 `PARAMS` 的值（可选为 1/2/3）。
+  - 编译默认生成 Aigis-sig2，如果需要使用其他参数可以在文件 `params.h` 中修改 `PARAMS` 的值（可选为 1/2/3）。
 - **SPHINCS-Alpha** 算法以 `test/test_spx_a.c` 文件为入口文件进行编译，可以得到 SPHINCS-Alpha 算法的测试程序。
-  - 如果需要使用其他参数可以在 文件 `Makefile` 中修改 `SPHINCS_A_MODE` 的值。
-- 若需要生成对应算法的性能测试程序，则将上述三个算法文件夹中的 `test/test_speed.c` 文件作为入口文件进行编译。
+  - 如果需要使用其他参数可以在文件 `Makefile` 中修改 `SPHINCS_A_MODE` 的值。
+- 若需要生成对应算法的性能测试程序，则将上述算法文件夹中的 `test/test_speed.c` 文件作为入口文件进行编译。
   - 同样通过修改 `config.h/params.h`/`Makefile` 文件中的对应字段来切换参数。
 
 ## 联系我们
