@@ -41,8 +41,6 @@ PQMagic 性能领先于 liboqs 开源实现**2倍**左右。
 
   ![ML-KEM-1024](figure/PQMagic-performance-ml-kem-1024.png)
 
-PQMagic-std 和 PQMagic-adv 版本的其余详细测试数据请见官网 https://pqcrypto.dev/benchmarkings/pqmagic/
-
 ## 编译使用
 
 ### 使用CMake
@@ -139,11 +137,7 @@ PQMagic-std 和 PQMagic-adv 版本的其余详细测试数据请见官网 https:
 - 若需要生成对应算法的性能测试程序，则将上述三个算法文件夹中的 `test/test_speed.c` 文件作为入口文件进行编译。
   - 同样通过修改 `config.h/params.h`/`Makefile` 文件中的对应字段来切换参数。
 
-## 项目网站
-
-- 主页: https://pqmagic.zdxlz.com/
-
 ## 联系我们
 
-- 关于 PQMagic 的相关问题，可通过邮件与主要维护者联系：contact@pqcrypto.dev
+- 关于 PQMagic 的相关问题，可通过邮件与主要维护者联系：&lt;ywh22921@163.com&gt;
 - 关于 PQMagic 的相关代码问题，欢迎在社区通过ISSUE（议题）等方式提交咨询。
