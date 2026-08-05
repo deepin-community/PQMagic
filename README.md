@@ -139,5 +139,5 @@ PQMagic 性能领先于 liboqs 开源实现**2倍**左右。
 
 ## 联系我们
 
-- 关于 PQMagic 的相关问题，可通过邮件与主要维护者联系：&lt;ywh22921@163.com&gt;
+- 关于 PQMagic 的相关问题，可通过邮件与主要维护者联系：&lt;yituohe@163.com&gt;
 - 关于 PQMagic 的相关代码问题，欢迎在社区通过ISSUE（议题）等方式提交咨询。
