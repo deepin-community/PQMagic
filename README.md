@@ -1,8 +1,8 @@
 # PQMagic
 
-[PQMagic](https://pqcrypto.dev/)（Post-Quantum Magic）是国内首个支持 [FIPS 203 204 205 标准](https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved) 的**高性能安全后量子密码算法库**，同时支持性能更高效的**国产自研** PQC 算法 **Aigis-Enc、Aigis-Sig**（[PKC 2020]((https://eprint.iacr.org/2019/510))）和 **SPHINCS-Alpha**（[CRYPTO 2023](https://eprint.iacr.org/2022/059)）。PQMagic 还对所有算法的底层哈希函数提供了国密算法改造的版本，更好地满足国内商密标准需求，做到了完全自主可控。
+[PQMagic](https://pqcrypto.dev/)（Post-Quantum Magic）是国内首个支持 [FIPS 203 204 205 标准](https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved) 的**高性能安全后量子密码算法库**，同时支持性能更高效的**国产自研** PQC 算法 **Aigis-Enc、Aigis-Sig**（[PKC 2020](https://eprint.iacr.org/2019/510)）和 **SPHINCS-Alpha**（[CRYPTO 2023](https://eprint.iacr.org/2022/059)）。PQMagic 还对所有算法的底层哈希函数提供了国密算法改造的版本，更好地满足国内商密标准需求，做到了完全自主可控。
 
-PQMagic 项目由郁昱教授团队（[上海交通大学](https://crypto.sjtu.edu.cn/lab/)、[上海期智研究院](https://sqz.ac.cn/password-48)）和李卷孺研究员团队（[华东师范大学](https://faculty.ecnu.edu.cn/_s54/ljr2/main.psp)）共同开发维护，旨在提供自主、可控、安全、高性能的后量子算法软件代码实现，为后量子密码迁移工作提供解决方案。
+PQMagic 项目由郁昱教授团队（[上海交通大学](https://crypto.sjtu.edu.cn/)、[上海期智研究院](https://sqz.ac.cn/password-48)）和李卷孺研究员团队（[华东师范大学](https://faculty.ecnu.edu.cn/_s54/ljr2/main.psp)）共同开发维护，旨在提供自主、可控、安全、高性能的后量子算法软件代码实现，为后量子密码迁移工作提供解决方案。
 
 ## PQMagic 版本
 
