@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+include /usr/share/dpkg/architecture.mk
+
+# The upstream build system hardcodes -march=native/-mtune=native; the flags are
+# removed by debian/patches/0001-Do-not-build-with-march-native.patch so that
+# the package runs on every CPU of the target architecture and is reproducible.
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_CFLAGS_MAINT_APPEND = -Wall
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+# ABI version of libpqmagic_std.so, matching the SONAME shipped for 1.0.0.
+# Bump it only when the ABI changes.
+PQMAGIC_SOVERSION = 0
+
+%:
+	dh $@ --buildsystem=cmake --builddirectory=build
+
+override_dh_auto_configure:
+	# The project derives its install paths from CMAKE_INSTALL_PREFIX and does
+	# not read CMAKE_INSTALL_LIBDIR, so the architecture-specific library
+	# directory has to be passed explicitly.  Multi-Arch: same requires it.
+	dh_auto_configure -- \
+		-DINSTALL_LIB_DIR=/usr/lib/$(DEB_HOST_MULTIARCH) \
+		-DINSTALL_INCLUDE_DIR=/usr/include \
+		-DPQMAGIC_LIB_VERSION=$(DEB_VERSION_UPSTREAM) \
+		-DPQMAGIC_LIB_SOVERSION=$(PQMAGIC_SOVERSION) \
+		-DENABLE_TEST=OFF \
+		-DENABLE_BENCH=OFF
+
+# Upstream registers nothing with ctest, so there is nothing for dh_auto_test to
+# run.  A real check is performed in override_dh_auto_install below, once the
+# public header has been installed.
+override_dh_auto_test:
+
+override_dh_auto_install:
+	dh_auto_install
+	# The build system also installs the per-algorithm kem/ and sig/ headers,
+	# but those describe internal interfaces and are not usable without the
+	# component libraries, which are not packaged.  The public API lives in
+	# pqmagic_api.h alone.
+	find debian/tmp/usr/include -mindepth 1 -maxdepth 1 \
+		! -name pqmagic_api.h -exec rm -rf {} +
+	# Link debian/smoke.c against the freshly built library and the installed
+	# header.  This is the only automated check of the exported ABI: the
+	# upstream self-test programs return 0 unconditionally, so their exit
+	# status says nothing.
+	@if echo "$(DEB_BUILD_OPTIONS)" | grep -qw nocheck; then \
+		echo "smoke test skipped: nocheck requested"; \
+	else \
+		set -e; \
+		$(CC) $(CPPFLAGS) $(CFLAGS) -o debian/smoke-test debian/smoke.c \
+			-Idebian/tmp/usr/include \
+			-L$(CURDIR)/build -lpqmagic_std $(LDFLAGS); \
+		LD_LIBRARY_PATH=$(CURDIR)/build ./debian/smoke-test; \
+		rm -f debian/smoke-test; \
+	fi
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf build debian/smoke-test

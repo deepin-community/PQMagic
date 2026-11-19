@@ -1,0 +1,3 @@
+usr/include/pqmagic_api.h
+usr/lib/${DEB_HOST_MULTIARCH}/libpqmagic_std.a
+usr/lib/${DEB_HOST_MULTIARCH}/libpqmagic_std.so

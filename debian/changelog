@@ -1,0 +1,17 @@
+pqmagic (1.0.0-0deepin1) unstable; urgency=medium
+
+  * Initial release for deepin/UOS 25 (amd64, arm64).
+  * Build PQMagic-std with the SM3 hash component, matching the shared
+    library that UOS 25 desktop already ships.
+  * Split the library into libpqmagic-std0 (SONAME libpqmagic_std.so.0,
+    Multi-Arch: same) and libpqmagic-std-dev, following the reference
+    UOS packaging.
+  * debian/patches: drop -march=native/-mtune=native so the package runs
+    on every CPU of the target architecture and is reproducible.
+  * debian/patches: give the shared library a SONAME and install it as a
+    CMake target, which also removes the install(CODE) symlink blocks
+    that escaped DESTDIR.
+  * Install only the public header pqmagic_api.h; the per-algorithm
+    kem/ and sig/ headers describe internal interfaces and are dropped.
+
+ -- lichenggang <lichenggang@uniontech.com>  Wed, 19 Nov 2026 20:20:00 +0800
