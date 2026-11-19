@@ -1,0 +1,85 @@
+From: lichenggang <lichenggang@uniontech.com>
+Date: Wed, 19 Nov 2026 20:20:00 +0800
+Subject: Add a SONAME and install the libraries as targets
+Forwarded: not-needed
+
+The shared library is linked without a SONAME, so the recorded dependency
+of anything built against it is the plain file name libpqmagic_std.so.
+Such a dependency cannot be satisfied by a versioned file and breaks as
+soon as the library file name changes, which is exactly what a library
+package is supposed to survive.
+
+Make the ABI version configurable from the build system invocation
+(PQMAGIC_LIB_VERSION and PQMAGIC_LIB_SOVERSION), matching what the
+component libraries in kem/ and sig/ already do, and let CMake install
+the link and SONAME symlinks itself through install(TARGETS ...).
+
+This also removes the install(CODE ...) blocks that created the
+unversioned libpqmagic.so and libpqmagic.a aliases.  Those used absolute
+paths built from CMAKE_INSTALL_PREFIX, so under DESTDIR the symlink was
+created outside the staging directory and pointed at the build host's own
+/usr/lib.  The aliases are not referenced by anything in the tree.
+
+Neither value may be tested with a bare if(), because "0" is a valid ABI
+version and evaluates to false in CMake's if().
+
+---
+ CMakeLists.txt | 42 +++++++++++-------------------------------
+ 1 file changed, 14 insertions(+), 28 deletions(-)
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -351,34 +351,28 @@ else()
+     set_target_properties(pqmagic_static_target PROPERTIES
+         OUTPUT_NAME "pqmagic_${PQMAGIC_VERSION}"
+     )
++    # A shared library has to carry a SONAME and a versioned file name so that
++    # dependent binaries keep working across compatible updates.  Distributions
++    # set both from the package metadata.
++    # Note: neither value may be tested with a bare if(), because "0" is a
++    # valid ABI version and evaluates to false there.
++    if(NOT "${PQMAGIC_LIB_VERSION}" STREQUAL "")
++        set_target_properties(pqmagic_target PROPERTIES
++            VERSION "${PQMAGIC_LIB_VERSION}"
++        )
++    endif()
++    if(NOT "${PQMAGIC_LIB_SOVERSION}" STREQUAL "")
++        set_target_properties(pqmagic_target PROPERTIES
++            SOVERSION "${PQMAGIC_LIB_SOVERSION}"
++        )
++    endif()
+ endif()
+ 
+ # Install lib.
+-install(FILES ${CMAKE_BINARY_DIR}/${PQMAGIC_SHARED_LIB_NAME}
+-    DESTINATION ${INSTALL_LIB_DIR})
+-install(FILES ${CMAKE_BINARY_DIR}/${PQMAGIC_STATIC_LIB_NAME}
+-    DESTINATION ${INSTALL_LIB_DIR})
+-
+-# Custom install all executable target.
+-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+-install(CODE 
+-    "
+-    message(STATUS \"Create soft link library for: ${INSTALL_LIB_DIR}/${PQMAGIC_STATIC_LIB_NAME}\")
+-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${INSTALL_LIB_DIR}/${PQMAGIC_STATIC_LIB_NAME} ${INSTALL_LIB_DIR}/${LIBRARY_PREFIX}pqmagic${STATIC_LIB_SUFFIX})
+-    message(STATUS \"Create soft link library for: ${INSTALL_LIB_DIR}/${PQMAGIC_SHARED_LIB_NAME}\")
+-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${INSTALL_LIB_DIR}/${PQMAGIC_SHARED_LIB_NAME} ${INSTALL_LIB_DIR}/${LIBRARY_PREFIX}pqmagic${DYNAMIC_LIB_SUFFIX})
+-    "
+-)
+-else()
+-install(CODE 
+-    "
+-    message(STATUS \"Create soft link library for: ${INSTALL_LIB_DIR}/${PQMAGIC_STATIC_LIB_NAME}\")
+-    execute_process(COMMAND ln -s ${INSTALL_LIB_DIR}/${PQMAGIC_STATIC_LIB_NAME} ${INSTALL_LIB_DIR}/${LIBRARY_PREFIX}pqmagic${STATIC_LIB_SUFFIX})
+-    message(STATUS \"Create soft link library for: ${INSTALL_LIB_DIR}/${PQMAGIC_SHARED_LIB_NAME}\")
+-    execute_process(COMMAND ln -s ${INSTALL_LIB_DIR}/${PQMAGIC_SHARED_LIB_NAME} ${INSTALL_LIB_DIR}/${LIBRARY_PREFIX}pqmagic${DYNAMIC_LIB_SUFFIX})
+-    "
+-)
+-endif()
++install(TARGETS pqmagic_target pqmagic_static_target
++    RUNTIME DESTINATION ${INSTALL_LIB_DIR}
++    LIBRARY DESTINATION ${INSTALL_LIB_DIR}
++    ARCHIVE DESTINATION ${INSTALL_LIB_DIR})
+ 
+ ###########################
+ # Add test binary for alg #

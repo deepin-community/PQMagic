@@ -1,0 +1,41 @@
+From: lichenggang <lichenggang@uniontech.com>
+Date: Wed, 19 Nov 2026 20:20:00 +0800
+Subject: Do not build with -march=native
+Forwarded: not-needed
+
+The Unix-like branch of the global compile options hardcodes both
+-march=native and -mtune=native.  That is fine for a local build on the
+machine that will run the code, but it is wrong for a binary distribution:
+the flags make the compiler emit every instruction the build machine
+supports, so a library built on an AVX-512 host contains AVX-512
+instructions and dies with SIGILL on any older CPU of the same
+architecture.  The flags also make the output depend on the builder, so
+the package cannot be reproduced.
+
+Drop both flags for the Unix-like path.  The Windows/MSVC branches keep
+their explicit /arch: selection, which is a deliberate per-architecture
+choice rather than a guess about the build host.
+
+---
+ CMakeLists.txt | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -198,10 +198,14 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+     endif()
+ else()
+     # Set global compile options
++    # -march=native/-mtune=native are intentionally not used here: this path is
++    # taken by Unix-like distributions building binary packages, where the
++    # instructions emitted on the builder must also run on older CPUs of the
++    # same architecture, and the output has to be reproducible.
+     add_compile_options(
+         -Wall -Wextra -Wpedantic -Wmissing-prototypes -Wredundant-decls -Wshadow -fPIC
+-        -Wpointer-arith -Wa,--noexecstack -fomit-frame-pointer -O3 -mtune=native
+-        -march=native -finline-functions
++        -Wpointer-arith -Wa,--noexecstack -fomit-frame-pointer -O3
++        -finline-functions
+     )
+ endif()
+ 
